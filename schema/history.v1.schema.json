@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/gtrlo49/rohhidolar/main/schema/history.v1.schema.json",
+  "title": "BoliDólar history.json v1",
+  "type": "object",
+  "required": ["schema", "official", "bestBuy", "bestSell"],
+  "properties": {
+    "schema": { "const": 1 },
+    "official": { "type": "array", "maxItems": 400, "items": { "$ref": "#/$defs/rate" } },
+    "bestBuy": { "type": "array", "maxItems": 400, "items": { "$ref": "#/$defs/value" } },
+    "bestSell": { "type": "array", "maxItems": 400, "items": { "$ref": "#/$defs/value" } }
+  },
+  "$defs": {
+    "rate": {
+      "type": "object",
+      "required": ["date", "rate"],
+      "properties": { "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }, "rate": { "type": "number" } }
+    },
+    "value": {
+      "type": "object",
+      "required": ["date", "value"],
+      "properties": { "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }, "value": { "type": "number" } }
+    }
+  }
+}

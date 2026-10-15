@@ -30,7 +30,8 @@ scraper/
     watchdog.py      # fails when the live rate.json is too old
   tests/
     fixtures/        # saved real responses of 2026-10-14 per source
-    test_*.py        # 70 tests: numbers, banks, bcb, ranking, validate, run/publish, http
+    test_*.py        # numbers, banks, bcb, ranking, validate, run/publish, http, contract (JSON Schema), failures
+schema/rate.v1.schema.json  schema/history.v1.schema.json   # frozen v1 contract
 .github/workflows/scrape.yml      # scrape 4×/day + Pages deploy
 .github/workflows/watchdog.yml    # stale-data alert
 .github/workflows/ci-scraper.yml  # ruff, mypy, pytest on PRs
@@ -74,6 +75,8 @@ class BankQuote:  code: str; name: str; buy: Decimal | None; sell: Decimal | Non
 
 `history.json`: `{ "schema":1, "official":[{"date":"2026-06-27","rate":9.73}], "bestBuy":[{"date":"…","value":…}], "bestSell":[…] }`. The official series is seeded from the BCB page; bank series start accumulating from the first run (one point per La_Paz day = the day's last good snapshot). Cap 400 points.
 
+The contract is frozen as JSON Schema in `schema/rate.v1.schema.json` and `schema/history.v1.schema.json`; `tests/test_contract.py` validates every run against them (the iOS tests should reuse the same files).
+
 Contract rules: additive changes only inside `v1`; breaking change → `v2/` beside it. Dates ISO in `America/La_Paz`; `fetchedAt` UTC. Cache `max-age=300`.
 
 ## Ranking rules (`ranking.py`)
@@ -88,7 +91,7 @@ Contract rules: additive changes only inside `v1`; breaking change → `v2/` bes
 - Each price in **[3, 50]**; `sell ≥ buy` when both exist; |change vs last good| ≤ **15 %** per bank (else `ok:false`, reason `jump`).
 - Official rate: same range; effective date ≥ previous and ≤ today+4 days.
 - Publish only if **official OK and ≥ 4 banks OK**; otherwise keep last file and fail the workflow.
-- A bank failing 24 consecutive runs is flagged in the workflow summary (parser probably broken).
+- A bank failing **8 consecutive runs** (2 days at 4 runs/day) is flagged as a GitHub warning and in the job summary (parser probably broken). The streak travels in `rate.json` as `banks[].failStreak` (present only while > 0).
 
 ## Schedule (`scrape.yml`)
 

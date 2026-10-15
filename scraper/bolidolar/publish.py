@@ -58,6 +58,8 @@ def build_rate(
         }
         if q.error:
             entry["error"] = q.error
+        if q.fail_streak:
+            entry["failStreak"] = q.fail_streak
         if q.source_date:
             entry["sourceDate"] = q.source_date.isoformat()
         banks.append(entry)

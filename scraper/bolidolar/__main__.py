@@ -3,6 +3,7 @@
 import argparse
 import json
 import logging
+import os
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -32,6 +33,31 @@ def _load_previous(out: Path, base_url: str | None, name: str) -> dict[str, Any]
     return None
 
 
+FAIL_STREAK_ALERT = 8  # consecutive runs (2 days at 4 runs/day): the parser is probably broken
+
+
+def failing_banks(rate: dict[str, Any]) -> list[dict[str, Any]]:
+    return [b for b in rate["banks"] if b.get("failStreak", 0) >= FAIL_STREAK_ALERT]
+
+
+def report_failing_banks(rate: dict[str, Any]) -> None:
+    """Flag banks failing for a long time as a GitHub warning and in the job summary."""
+    failing = failing_banks(rate)
+    for bank in failing:
+        message = (
+            f"{bank['code']} has failed {bank['failStreak']} runs in a row ({bank.get('error')})"
+        )
+        print(f"::warning title=Bank parser probably broken::{message}")
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if failing and summary:
+        with open(summary, "a", encoding="utf-8") as handle:
+            handle.write("### Banks failing for a long time\n")
+            for bank in failing:
+                handle.write(
+                    f"- **{bank['code']}**: {bank['failStreak']} runs, {bank.get('error')}\n"
+                )
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="bolidolar", description=__doc__)
     parser.add_argument("--out", type=Path, default=Path("../site"), help="output directory")
@@ -55,6 +81,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.dry_run:
         print(json.dumps(rate, ensure_ascii=False, indent=2))
         return 0
+    report_failing_banks(rate)
     changed = publish.publish(args.out, rate, history, previous_rate, now)
     logging.info("rate.json %s", "updated" if changed else "unchanged")
     return 0

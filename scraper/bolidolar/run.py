@@ -1,6 +1,7 @@
 """One scraping run: collect, validate, rank and build the payloads."""
 
 import logging
+from dataclasses import replace
 from datetime import UTC, datetime
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -32,8 +33,12 @@ def collect_banks(
             log.exception("%s unexpected failure", spec.code)
             quote = BankQuote(spec.code, spec.name, ok=False, error="unexpected")
         quote = validate.validate_quote(quote, previous_banks, accept_jump)
-        if not quote.ok:
-            log.warning("%s not ok: %s", quote.code, quote.error)
+        if quote.ok:
+            quote = replace(quote, fail_streak=0)
+        else:
+            streak = int(previous_banks.get(quote.code, {}).get("failStreak", 0)) + 1
+            quote = replace(quote, fail_streak=streak)
+            log.warning("%s not ok: %s (%d runs in a row)", quote.code, quote.error, streak)
         quotes.append(quote)
     return quotes
 

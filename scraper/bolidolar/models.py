@@ -1,6 +1,6 @@
 """Data classes shared by the scraper modules."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import date
 from decimal import Decimal
 
@@ -22,9 +22,10 @@ class BankQuote:
     ok: bool = True
     error: str | None = None
     source_date: date | None = None
+    fail_streak: int = 0  # consecutive runs this bank was not ok
 
     def failed(self, error: str) -> "BankQuote":
-        return BankQuote(self.code, self.name, None, None, False, error, self.source_date)
+        return replace(self, buy=None, sell=None, ok=False, error=error)
 
 
 @dataclass(frozen=True)

@@ -8,3 +8,4 @@ __pycache__/
 
 # published output is built in CI; local test runs write here
 /site/
+.coverage

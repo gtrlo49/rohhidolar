@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff", "mypy"]
+dev = ["pytest>=8", "pytest-cov", "jsonschema>=4", "ruff", "mypy"]
 
 [build-system]
 requires = ["setuptools>=68"]

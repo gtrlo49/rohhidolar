@@ -122,3 +122,21 @@ def test_history_keeps_days_and_replaces_same_day(fake_fetcher: FakeFetcher) -> 
     _, second = run(FakeFetcher(), NOW + timedelta(hours=1), None, first)
     assert second["bestBuy"] == first["bestBuy"]
     assert len(second["official"]) == len(first["official"])
+
+
+def test_fail_streak_counts_consecutive_failures_and_resets(fake_fetcher: FakeFetcher) -> None:
+    broken = FakeFetcher({"https://www.bancofie.com.bo/api/tcl": FetchError("down")})
+    rate1, history1 = run(broken, NOW, None, None)
+    assert banks(rate1)["FIE"]["failStreak"] == 1
+    assert "failStreak" not in banks(rate1)["BNB"]
+
+    rate2, history2 = run(
+        FakeFetcher({"https://www.bancofie.com.bo/api/tcl": FetchError("down")}),
+        NOW + timedelta(hours=6),
+        rate1,
+        history1,
+    )
+    assert banks(rate2)["FIE"]["failStreak"] == 2
+
+    rate3, _ = run(fake_fetcher, NOW + timedelta(hours=12), rate2, history2)
+    assert "failStreak" not in banks(rate3)["FIE"]
