@@ -6,9 +6,9 @@ Banco Unión prints a sentence: 'Dólar Oficial 11,70 Compra BOB: 10,20 / Venta 
 
 import re
 
-from bolidolar.banks.common import BankSpec, page_text, prices_from_text
-from bolidolar.http import Fetcher
-from bolidolar.models import BankQuote
+from rohhidolar.banks.common import BankSpec, page_text, prices_from_text
+from rohhidolar.http import Fetcher
+from rohhidolar.models import BankQuote
 
 _DOLAR_COMPRA_VENTA = re.compile(
     r"D[óo]lar\s+Compra:?\s*([\d.,]+)\s*\|?\s*D[óo]lar\s+Venta:?\s*([\d.,]+)", re.IGNORECASE

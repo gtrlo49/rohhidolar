@@ -3,8 +3,8 @@ from decimal import Decimal
 
 import pytest
 
-from bolidolar import bcb
-from bolidolar.models import LayoutChanged
+from rohhidolar import bcb
+from rohhidolar.models import LayoutChanged
 from tests.conftest import fixture_text
 
 

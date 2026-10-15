@@ -3,9 +3,9 @@ from decimal import Decimal
 
 import pytest
 
-from bolidolar.banks.json_banks import parse_bec, parse_bga, parse_bmsc, parse_fie
-from bolidolar.banks.text_banks import parse_bcp, parse_bisa, parse_bnb, parse_bun
-from bolidolar.models import LayoutChanged
+from rohhidolar.banks.json_banks import parse_bec, parse_bga, parse_bmsc, parse_fie
+from rohhidolar.banks.text_banks import parse_bcp, parse_bisa, parse_bnb, parse_bun
+from rohhidolar.models import LayoutChanged
 from tests.conftest import fixture_text
 
 D = Decimal

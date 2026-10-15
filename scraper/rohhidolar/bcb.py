@@ -4,9 +4,9 @@ import re
 
 from selectolax.lexbor import LexborHTMLParser as HTMLParser
 
-from bolidolar.http import Fetcher
-from bolidolar.models import LayoutChanged, OfficialRate
-from bolidolar.numbers import parse_decimal, parse_spanish_date, price
+from rohhidolar.http import Fetcher
+from rohhidolar.models import LayoutChanged, OfficialRate
+from rohhidolar.numbers import parse_decimal, parse_spanish_date, price
 
 BCB_URL = "https://www.bcb.gob.bo/bcb_tco_publico_ultima_cotizacion.php"
 

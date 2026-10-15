@@ -8,9 +8,9 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-from bolidolar import bcb
-from bolidolar.models import BankQuote, OfficialRate
-from bolidolar.ranking import Best
+from rohhidolar import bcb
+from rohhidolar.models import BankQuote, OfficialRate
+from rohhidolar.ranking import Best
 
 SCHEMA = 1
 HISTORY_LIMIT = 400

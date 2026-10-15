@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/gtrlo49/rohhidolar/main/schema/rate.v1.schema.json",
-  "title": "BoliDólar rate.json v1",
+  "title": "RohhiDolar rate.json v1",
   "description": "Additive changes only inside v1: unknown properties must be ignored by clients.",
   "type": "object",
   "required": ["schema", "fetchedAt", "official", "banks", "bestBuy", "bestSell", "sourceUrls"],

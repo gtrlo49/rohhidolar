@@ -4,10 +4,10 @@ from pathlib import Path
 
 import pytest
 
-from bolidolar import publish
-from bolidolar.http import FetchError
-from bolidolar.models import LayoutChanged, ValidationError
-from bolidolar.run import run
+from rohhidolar import publish
+from rohhidolar.http import FetchError
+from rohhidolar.models import LayoutChanged, ValidationError
+from rohhidolar.run import run
 from tests.conftest import FakeFetcher
 
 NOW = datetime(2026, 10, 14, 19, 10, tzinfo=UTC)  # 15:10 in La Paz

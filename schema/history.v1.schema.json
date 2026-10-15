@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/gtrlo49/rohhidolar/main/schema/history.v1.schema.json",
-  "title": "BoliDólar history.json v1",
+  "title": "RohhiDolar history.json v1",
   "type": "object",
   "required": ["schema", "official", "bestBuy", "bestSell"],
   "properties": {

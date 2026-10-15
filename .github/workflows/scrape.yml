@@ -21,7 +21,7 @@ concurrency:
 
 env:
   PAGES_URL: ${{ vars.PAGES_BASE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
-  BOLIDOLAR_CONTACT: ${{ vars.BOLIDOLAR_CONTACT || format('+https://github.com/{0}', github.repository) }}
+  ROHHIDOLAR_CONTACT: ${{ vars.ROHHIDOLAR_CONTACT || format('+https://github.com/{0}', github.repository) }}
 
 jobs:
   scrape:
@@ -45,7 +45,7 @@ jobs:
       - name: Scrape (fails, and publishes nothing, if validation fails)
         working-directory: scraper
         run: >
-          python -m bolidolar --out ../site --previous-url "$PAGES_URL"
+          python -m rohhidolar --out ../site --previous-url "$PAGES_URL"
           ${{ inputs.accept_jump && '--accept-jump' || '' }}
 
       - name: Show result

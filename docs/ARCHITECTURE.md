@@ -12,7 +12,7 @@
 └────────────────────┘    isolation     └──────────────┘          └──────────┬────────────┘
                                                                              │ HTTPS GET (ETag)
                                           ┌──────────────────────────────────▼───────────────┐
-                                          │ iOS/iPadOS app + Widget extension (BoliDolarKit)  │
+                                          │ iOS/iPadOS app + Widget extension (RohhiDolarKit)  │
                                           │ App Group cache · WidgetKit timeline · BGTask     │
                                           └───────────────────────────────────────────────────┘
 ```
@@ -40,10 +40,10 @@ rohhidolar/
   site/                     # published JSON (GitHub Pages)
   .github/workflows/        # scrape.yml, ci-scraper.yml, ci-ios.yml
   ios/
-    BoliDolar.xcodeproj
-    BoliDolar/              # app target
-    BoliDolarWidget/        # widget extension
-    Packages/BoliDolarKit/  # models, RateService, RateStore, formatters (+ tests)
+    RohhiDolar.xcodeproj
+    RohhiDolar/              # app target
+    RohhiDolarWidget/        # widget extension
+    Packages/RohhiDolarKit/  # models, RateService, RateStore, formatters (+ tests)
 ```
 
 ## Cross-cutting concerns

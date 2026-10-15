@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
 
-from bolidolar.models import BankQuote
+from rohhidolar.models import BankQuote
 
 
 @dataclass(frozen=True)

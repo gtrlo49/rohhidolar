@@ -1,4 +1,4 @@
-"""Command line: python -m bolidolar [--out DIR] [--previous-url URL] [--dry-run]."""
+"""Command line: python -m rohhidolar [--out DIR] [--previous-url URL] [--dry-run]."""
 
 import argparse
 import json
@@ -11,10 +11,10 @@ from typing import Any
 
 import httpx
 
-from bolidolar import publish
-from bolidolar.http import HttpFetcher
-from bolidolar.models import ValidationError
-from bolidolar.run import run
+from rohhidolar import publish
+from rohhidolar.http import HttpFetcher
+from rohhidolar.models import ValidationError
+from rohhidolar.run import run
 
 
 def _load_previous(out: Path, base_url: str | None, name: str) -> dict[str, Any] | None:
@@ -59,7 +59,7 @@ def report_failing_banks(rate: dict[str, Any]) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="bolidolar", description=__doc__)
+    parser = argparse.ArgumentParser(prog="rohhidolar", description=__doc__)
     parser.add_argument("--out", type=Path, default=Path("../site"), help="output directory")
     parser.add_argument("--previous-url", help="base URL of the live site to read previous files")
     parser.add_argument("--dry-run", action="store_true", help="print the result, write nothing")

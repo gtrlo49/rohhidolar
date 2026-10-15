@@ -8,12 +8,12 @@ from zoneinfo import ZoneInfo
 
 import httpx
 
-from bolidolar import bcb, publish, ranking, validate
-from bolidolar.banks import BANKS
-from bolidolar.http import Fetcher, FetchError
-from bolidolar.models import BankQuote, LayoutChanged, OfficialRate
+from rohhidolar import bcb, publish, ranking, validate
+from rohhidolar.banks import BANKS
+from rohhidolar.http import Fetcher, FetchError
+from rohhidolar.models import BankQuote, LayoutChanged, OfficialRate
 
-log = logging.getLogger("bolidolar")
+log = logging.getLogger("rohhidolar")
 LA_PAZ = ZoneInfo("America/La_Paz")
 
 

@@ -1,4 +1,4 @@
-# BoliDólar — Bolivia USD widget for iPhone & iPad
+# RohhiDolar — Bolivia USD widget for iPhone & iPad
 
 A WidgetKit widget that shows, for the US dollar in Bolivia (Bs/$us), the **best compra** and **best venta** among the main banks (with the bank's code, e.g. `BNB +1`, `FIE`) next to the **official BCB rate**. Data is read **every hour** from the banks' own public pages (BNB, BISA, BCP, Unión, Económico, FIE, Ganadero, Mercantil) and from the BCB page.
 

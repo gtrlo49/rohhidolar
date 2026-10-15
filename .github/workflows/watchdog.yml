@@ -22,4 +22,4 @@ jobs:
           python-version: "3.12"
       - run: pip install -e scraper
       - name: Fail if rate.json is older than 4 hours (GitHub e-mails you on failure)
-        run: python -m bolidolar.watchdog --url "$PAGES_URL" --max-hours 4
+        run: python -m rohhidolar.watchdog --url "$PAGES_URL" --max-hours 4

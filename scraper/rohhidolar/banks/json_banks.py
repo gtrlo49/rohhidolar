@@ -15,9 +15,9 @@ from typing import Any
 
 from selectolax.lexbor import LexborHTMLParser as HTMLParser
 
-from bolidolar.banks.common import BankSpec, prices_from_text
-from bolidolar.models import BankQuote, LayoutChanged
-from bolidolar.numbers import parse_decimal, parse_spanish_date, price
+from rohhidolar.banks.common import BankSpec, prices_from_text
+from rohhidolar.models import BankQuote, LayoutChanged
+from rohhidolar.numbers import parse_decimal, parse_spanish_date, price
 
 BEC_URL = "https://www.baneco.com.bo/GetTipoCambio"
 FIE_URL = "https://www.bancofie.com.bo/api/tcl"

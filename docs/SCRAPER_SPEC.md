@@ -12,7 +12,7 @@
 ```
 scraper/
   pyproject.toml
-  bolidolar/
+  rohhidolar/
     numbers.py       # Spanish numbers/dates, price rounding
     http.py          # httpx client: UA, timeout, retries, per-host delay (BCB ≥ 10 s)
     models.py        # BankQuote, OfficialRate, LayoutChanged, ValidationError
@@ -111,7 +111,7 @@ Contract rules: additive changes only inside `v1`; breaking change → `v2/` bes
 
 ## Hardening
 
-- Identifiable UA that looks like a browser plus contact: `Mozilla/5.0 (…) Safari/605.1.15 BoliDolar/1.0 (+contact-url)` — BNB rejects non-browser UAs.
+- Identifiable UA that looks like a browser plus contact: `Mozilla/5.0 (…) Safari/605.1.15 RohhiDolar/1.0 (+contact-url)` — BNB rejects non-browser UAs.
 - Each bank parser asserts its anchor text (`Dólar Compra`, `Compra BOB`, JSON keys); missing anchor → `LayoutChanged` → `ok:false`, never a guess.
 - Never call endpoints disallowed in `robots.txt` (BG `/api/`). FIE `/api/tcl` is the site's own public front-end call (robots allows all); re-check if it starts requiring tokens.
 - Fixtures for every bank per month to detect markup drift.

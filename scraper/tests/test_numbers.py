@@ -3,7 +3,7 @@ from decimal import Decimal
 
 import pytest
 
-from bolidolar.numbers import parse_decimal, parse_spanish_date, price
+from rohhidolar.numbers import parse_decimal, parse_spanish_date, price
 
 
 @pytest.mark.parametrize(

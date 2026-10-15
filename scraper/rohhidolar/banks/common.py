@@ -7,9 +7,9 @@ from decimal import Decimal
 
 from selectolax.lexbor import LexborHTMLParser as HTMLParser
 
-from bolidolar.http import Fetcher
-from bolidolar.models import BankQuote, LayoutChanged
-from bolidolar.numbers import parse_decimal, price
+from rohhidolar.http import Fetcher
+from rohhidolar.models import BankQuote, LayoutChanged
+from rohhidolar.numbers import parse_decimal, price
 
 
 @dataclass(frozen=True)

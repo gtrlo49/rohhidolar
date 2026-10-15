@@ -9,10 +9,10 @@ from urllib.parse import urlparse
 
 import httpx
 
-CONTACT = os.environ.get("BOLIDOLAR_CONTACT", "+contact-pending")
+CONTACT = os.environ.get("ROHHIDOLAR_CONTACT", "+contact-pending")
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) "
-    f"Version/17.0 Safari/605.1.15 BoliDolar/1.0 ({CONTACT})"
+    f"Version/17.0 Safari/605.1.15 RohhiDolar/1.0 ({CONTACT})"
 )
 # robots.txt of the BCB asks for Crawl-delay: 10
 DEFAULT_HOST_DELAYS = {"www.bcb.gob.bo": 10.0}

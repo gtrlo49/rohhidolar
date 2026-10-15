@@ -8,9 +8,9 @@ from typing import Any
 import pytest
 from jsonschema import Draft202012Validator
 
-from bolidolar.__main__ import FAIL_STREAK_ALERT, failing_banks, report_failing_banks
-from bolidolar.http import FetchError
-from bolidolar.run import run
+from rohhidolar.__main__ import FAIL_STREAK_ALERT, failing_banks, report_failing_banks
+from rohhidolar.http import FetchError
+from rohhidolar.run import run
 from tests.conftest import FakeFetcher
 
 SCHEMAS = Path(__file__).parents[2] / "schema"

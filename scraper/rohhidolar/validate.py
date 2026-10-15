@@ -4,7 +4,7 @@ from datetime import date, timedelta
 from decimal import Decimal
 from typing import Any
 
-from bolidolar.models import BankQuote, OfficialRate, ValidationError
+from rohhidolar.models import BankQuote, OfficialRate, ValidationError
 
 MIN_PRICE = Decimal("3")
 MAX_PRICE = Decimal("50")

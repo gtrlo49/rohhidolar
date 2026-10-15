@@ -1,7 +1,7 @@
 [project]
-name = "bolidolar-scraper"
+name = "rohhidolar-scraper"
 version = "0.1.0"
-description = "Hourly scraper of BCB and Bolivian bank USD prices, publishing rate.json for the BoliDólar widget"
+description = "Hourly scraper of BCB and Bolivian bank USD prices, publishing rate.json for the RohhiDolar widget"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Jose Carlos Rueda Garcia" }]
@@ -19,7 +19,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["bolidolar*"]
+include = ["rohhidolar*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

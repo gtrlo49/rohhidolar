@@ -35,7 +35,7 @@ Snapshot 2026-10-14:
 Notes:
 - None of the pages publishes a **timestamp** (only FIE gives a date). The scraper records its own `fetchedAt`; the widget shows "Leído hoy 15:10".
 - Prices were identical across banks for *venta* (12.00 ×4), which makes **ties the normal case** — see tie rule in WIDGET_SPEC.
-- Selectors/labels live in **one parser module per bank** (`scraper/bolidolar/banks/<code>.py`). A bank failing must never fail the others.
+- Selectors/labels live in **one parser module per bank** (`scraper/rohhidolar/banks/<code>.py`). A bank failing must never fail the others.
 - Reading only the home page / one endpoint per bank, 4 times a day.
 
 ### robots.txt / terms review (2026-10-14)

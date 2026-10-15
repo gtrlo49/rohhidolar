@@ -3,9 +3,9 @@ from decimal import Decimal
 
 import pytest
 
-from bolidolar import bcb
-from bolidolar.models import BankQuote, ValidationError
-from bolidolar.validate import require_enough_banks, validate_official, validate_quote
+from rohhidolar import bcb
+from rohhidolar.models import BankQuote, ValidationError
+from rohhidolar.validate import require_enough_banks, validate_official, validate_quote
 from tests.conftest import fixture_text
 
 D = Decimal

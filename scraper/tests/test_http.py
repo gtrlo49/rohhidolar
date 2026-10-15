@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from bolidolar.http import FetchError, HttpFetcher
+from rohhidolar.http import FetchError, HttpFetcher
 
 
 def fetcher(handler, **kwargs) -> tuple[HttpFetcher, list[float]]:  # type: ignore[no-untyped-def]

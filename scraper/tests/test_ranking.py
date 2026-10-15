@@ -1,8 +1,8 @@
 from datetime import date
 from decimal import Decimal
 
-from bolidolar.models import BankQuote
-from bolidolar.ranking import best_buy, best_sell, tie_pick
+from rohhidolar.models import BankQuote
+from rohhidolar.ranking import best_buy, best_sell, tie_pick
 
 D = Decimal
 DAY = date(2026, 10, 14)

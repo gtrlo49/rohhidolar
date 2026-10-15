@@ -8,10 +8,10 @@ from typing import Any
 import httpx
 import pytest
 
-from bolidolar import __main__ as cli
-from bolidolar import bcb, watchdog
-from bolidolar.banks.json_banks import parse_bec, parse_bga, parse_bmsc, parse_fie
-from bolidolar.models import LayoutChanged
+from rohhidolar import __main__ as cli
+from rohhidolar import bcb, watchdog
+from rohhidolar.banks.json_banks import parse_bec, parse_bga, parse_bmsc, parse_fie
+from rohhidolar.models import LayoutChanged
 from tests.conftest import fixture_text
 
 
@@ -102,7 +102,7 @@ def test_watchdog_age_and_exit_codes(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_cli_dry_run_and_validation_failure(
     monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str], tmp_path: Any
 ) -> None:
-    from bolidolar.models import ValidationError
+    from rohhidolar.models import ValidationError
     from tests.conftest import FakeFetcher
 
     monkeypatch.setattr(cli, "HttpFetcher", FakeFetcher)
