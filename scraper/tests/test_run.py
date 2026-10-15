@@ -96,7 +96,7 @@ def test_publish_writes_files_and_is_idempotent(tmp_path: Path, fake_fetcher: Fa
     written = publish.load_json(tmp_path / "v1" / "rate.json")
     assert written == rate
 
-    later = NOW + timedelta(hours=1)
+    later = NOW + timedelta(minutes=10)
     rate2, history2 = run(
         FakeFetcher(), later, written, publish.load_json(tmp_path / "v1" / "history.json")
     )
@@ -104,12 +104,12 @@ def test_publish_writes_files_and_is_idempotent(tmp_path: Path, fake_fetcher: Fa
     assert publish.load_json(tmp_path / "v1" / "rate.json")["fetchedAt"] == rate["fetchedAt"]  # type: ignore[index]
 
 
-def test_publish_refreshes_timestamp_after_three_hours(
+def test_publish_refreshes_timestamp_after_half_an_hour(
     tmp_path: Path, fake_fetcher: FakeFetcher
 ) -> None:
     rate, history = run(fake_fetcher, NOW, None, None)
     publish.publish(tmp_path, rate, history, None, NOW)
-    later = NOW + timedelta(hours=7)
+    later = NOW + timedelta(hours=1)
     rate2, history2 = run(FakeFetcher(), later, rate, history)
     assert publish.publish(tmp_path, rate2, history2, rate, later) is True
     written = publish.load_json(tmp_path / "v1" / "rate.json")

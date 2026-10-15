@@ -2,7 +2,7 @@ name: Scrape and publish
 
 on:
   schedule:
-    - cron: "10 0,6,12,18 * * *" # 4 runs/day (UTC; 20:10, 02:10, 08:10, 14:10 in La Paz); GitHub may delay it
+    - cron: "10 * * * *" # hourly; GitHub may delay it by up to ~15 minutes
   workflow_dispatch:
     inputs:
       accept_jump:

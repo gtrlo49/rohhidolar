@@ -33,7 +33,7 @@ def _load_previous(out: Path, base_url: str | None, name: str) -> dict[str, Any]
     return None
 
 
-FAIL_STREAK_ALERT = 8  # consecutive runs (2 days at 4 runs/day): the parser is probably broken
+FAIL_STREAK_ALERT = 24  # consecutive runs (1 day at hourly runs): the parser is probably broken
 
 
 def failing_banks(rate: dict[str, Any]) -> list[dict[str, Any]]:

@@ -2,7 +2,7 @@
 
 A WidgetKit widget that shows, for the US dollar in Bolivia (Bs/$us), the **best compra** and **best venta** among the main banks (with the bank's code, e.g. `BNB +1`, `FIE`) next to the **official BCB rate**. Data is read **every hour** from the banks' own public pages (BNB, BISA, BCP, Unión, Económico, FIE, Ganadero, Mercantil) and from the BCB page.
 
-> Status: **scraper done** (94 tests, 8 of 8 banks read live; published on GitHub Pages 4 times a day). iOS app and widget not started.
+> Status: **scraper done** (94 tests, 8 of 8 banks read live; published on GitHub Pages every hour). iOS app and widget not started.
 
 ## Why the design looks like this
 
@@ -10,7 +10,7 @@ A WidgetKit widget that shows, for the US dollar in Bolivia (Bs/$us), the **best
 - A widget **cannot scrape reliably on its own**: iOS gives it a small, system-controlled refresh budget and no background HTML parsing guarantees. So scraping runs on a tiny **backend job**, which publishes a small static `rate.json`; the widget only downloads that JSON.
 
 ```
-BCB page + 8 bank pages ──(scrape 4×/day, GitHub Actions)──▶ rate.json (static host/CDN)
+BCB page + 8 bank pages ──(scrape 1×/hour, GitHub Actions)──▶ rate.json (static host/CDN)
                                                           │
                                   iOS app + Widget extension ◀┘  (App Group cache, WidgetKit timeline)
 ```

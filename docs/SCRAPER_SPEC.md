@@ -2,7 +2,7 @@
 
 ## Responsibilities
 
-1. Four times a day fetch: the BCB page + one page/endpoint per bank (see [DATA_SOURCES.md](DATA_SOURCES.md)).
+1. Once per hour fetch: the BCB page + one page/endpoint per bank (see [DATA_SOURCES.md](DATA_SOURCES.md)).
 2. Parse each source independently (a failing bank never fails the others).
 3. Validate; compute **best compra**, **best venta** (with ties) and the official rate delta.
 4. Write `rate.json` + `history.json`; publish. On total failure keep the last good file and fail CI.
@@ -32,7 +32,7 @@ scraper/
     fixtures/        # saved real responses of 2026-10-14 per source
     test_*.py        # numbers, banks, bcb, ranking, validate, run/publish, http, contract (JSON Schema), failures
 schema/rate.v1.schema.json  schema/history.v1.schema.json   # frozen v1 contract
-.github/workflows/scrape.yml      # scrape 4×/day + Pages deploy
+.github/workflows/scrape.yml      # hourly scrape + Pages deploy
 .github/workflows/watchdog.yml    # stale-data alert
 .github/workflows/ci-scraper.yml  # ruff, mypy, pytest on PRs
 site/v1/rate.json  site/v1/history.json
@@ -91,20 +91,20 @@ Contract rules: additive changes only inside `v1`; breaking change → `v2/` bes
 - Each price in **[3, 50]**; `sell ≥ buy` when both exist; |change vs last good| ≤ **15 %** per bank (else `ok:false`, reason `jump`).
 - Official rate: same range; effective date ≥ previous and ≤ today+4 days.
 - Publish only if **official OK and ≥ 4 banks OK**; otherwise keep last file and fail the workflow.
-- A bank failing **8 consecutive runs** (2 days at 4 runs/day) is flagged as a GitHub warning and in the job summary (parser probably broken). The streak travels in `rate.json` as `banks[].failStreak` (present only while > 0).
+- A bank failing **24 consecutive runs** (1 day at hourly runs) is flagged as a GitHub warning and in the job summary (parser probably broken). The streak travels in `rate.json` as `banks[].failStreak` (present only while > 0).
 
 ## Schedule (`scrape.yml`)
 
-- **4 runs/day**: `cron: "10 0,6,12,18 * * *"` (UTC, + `workflow_dispatch`). GitHub's cron may drift ±15 min — acceptable.
-- Per run ≈ 9 requests spaced ≥ 10 s apart (BCB `Crawl-delay`), well under a minute of total traffic; 4 runs/day.
-- Skip commit/deploy when payload is unchanged except `fetchedAt` older than 3 h (so freshness stays visible).
-- Alerts: workflow failure e-mail; watchdog cron fails if `fetchedAt` is > 4 h old, checked 1.5 h after each scrape.
+- **Hourly**: `cron: "10 * * * *"` (+ `workflow_dispatch`). GitHub's cron may drift ±15 min — acceptable.
+- Per run ≈ 9 requests spaced ≥ 10 s apart (BCB `Crawl-delay`), well under a minute of total traffic; 24 runs/day (≤ 24 requests/day per site).
+- Skip commit/deploy when payload is unchanged except `fetchedAt` older than 30 min (so freshness stays visible).
+- Alerts: workflow failure e-mail; watchdog cron fails if `fetchedAt` is > 3 h old, checked every two hours.
 - Deploy to GitHub Pages with `actions/deploy-pages`.
 
 ## Implementation notes (2026-10-14)
 
 - State between runs: the Pages site is the database. Each run reads the previous `rate.json`/`history.json` from the live URL (`--previous-url`), so there are no scheduled commits. First run (404) starts empty.
-- Idempotency: if the new payload equals the previous one (ignoring `fetchedAt`) and the previous is < 3 h old, the old `rate.json` is kept as is.
+- Idempotency: if the new payload equals the previous one (ignoring `fetchedAt`) and the previous is < 30 min old, the old `rate.json` is kept as is.
 - `www.bcp.com.bo` resets TLS connections that use Python's default cipher policy (curl works). Only for that host the client uses OpenSSL security level 1 (`LEGACY_TLS_HOSTS` in `http.py`); certificate verification stays on. Prices are range-checked, so a tampered page would be rejected as `out_of_range`/`jump` in most cases. Revisit if BCP updates its TLS.
 - `selectolax` ≥ 1.0 dropped the Modest backend; the code uses the Lexbor parser.
 - Live run (2026-10-14): **8 of 8 banks OK**, best compra 11.20 (BNB/BCP tie), best venta 11.80 (FIE). BMSC was added the same day from the endpoint its website calls.

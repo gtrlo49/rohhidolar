@@ -15,7 +15,7 @@ def age_hours(fetched_at: str, now: datetime) -> float:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="rohhidolar-watchdog")
     parser.add_argument("--url", required=True, help="base URL of the live site")
-    parser.add_argument("--max-hours", type=float, default=4.0)
+    parser.add_argument("--max-hours", type=float, default=3.0)
     args = parser.parse_args(argv)
     try:
         response = httpx.get(f"{args.url.rstrip('/')}/v1/rate.json", timeout=15.0)

@@ -14,7 +14,7 @@ from rohhidolar.ranking import Best
 
 SCHEMA = 1
 HISTORY_LIMIT = 400
-REFRESH_AFTER_HOURS = 3
+REFRESH_AFTER_HOURS = 0.5
 
 
 def _num(value: Decimal | None) -> float | None:
