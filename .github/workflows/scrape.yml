@@ -2,7 +2,10 @@ name: Scrape and publish
 
 on:
   schedule:
-    - cron: "10 * * * *" # hourly; GitHub may delay it by up to ~15 minutes
+    # Fallback only: Google Cloud Scheduler starts this workflow every hour at :05 through the
+    # GitHub API (workflow_dispatch). GitHub's own cron is unreliable (late or skipped runs), so it
+    # only runs when the data is already older than 40 minutes.
+    - cron: "35 * * * *"
   workflow_dispatch:
     inputs:
       accept_jump:
@@ -33,36 +36,57 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Skip the fallback cron when the data is already fresh
+        id: fresh
+        if: github.event_name == 'schedule'
+        run: |
+          minutes=$(curl -fsS --max-time 20 "$PAGES_URL/v1/rate.json" | python3 -c '
+          import json, sys
+          from datetime import datetime, timezone
+          fetched = datetime.strptime(json.load(sys.stdin)["fetchedAt"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+          print(int((datetime.now(timezone.utc) - fetched).total_seconds() // 60))
+          ' || echo 9999)
+          echo "rate.json is ${minutes} minutes old"
+          if [ "$minutes" -lt 40 ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
+
       - uses: actions/setup-python@v5
+        if: steps.fresh.outputs.skip != 'true'
         with:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: scraper/pyproject.toml
 
       - name: Install
+        if: steps.fresh.outputs.skip != 'true'
         run: pip install -e scraper
 
       - name: Scrape (fails, and publishes nothing, if validation fails)
+        if: steps.fresh.outputs.skip != 'true'
         working-directory: scraper
         run: >
           python -m rohhidolar --out ../site --previous-url "$PAGES_URL"
           ${{ inputs.accept_jump && '--accept-jump' || '' }}
 
       - name: Show result
+        if: steps.fresh.outputs.skip != 'true'
         run: head -c 1500 site/v1/rate.json
 
       - name: Add static pages (landing, privacy policy) and the JSON schemas
+        if: steps.fresh.outputs.skip != 'true'
         run: |
           cp -R pages/. site/
           mkdir -p site/schema
           cp schema/*.json site/schema/
 
       - uses: actions/configure-pages@v5
+        if: steps.fresh.outputs.skip != 'true'
 
       - uses: actions/upload-pages-artifact@v3
+        if: steps.fresh.outputs.skip != 'true'
         with:
           path: site
 
       - name: Deploy
+        if: steps.fresh.outputs.skip != 'true'
         id: deploy
         uses: actions/deploy-pages@v4

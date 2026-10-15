@@ -95,7 +95,7 @@ Contract rules: additive changes only inside `v1`; breaking change → `v2/` bes
 
 ## Schedule (`scrape.yml`)
 
-- **Hourly**: `cron: "10 * * * *"` (+ `workflow_dispatch`). GitHub's cron may drift ±15 min — acceptable.
+- **Hourly trigger:** Google Cloud Scheduler calls the GitHub API (`workflow_dispatch`) at minute :05 every hour, because GitHub's own cron is best-effort and skipped runs. The workflow keeps `cron: "35 * * * *"` as a fallback that only runs when `rate.json` is older than 40 minutes.
 - Per run ≈ 9 requests spaced ≥ 10 s apart (BCB `Crawl-delay`), well under a minute of total traffic; 24 runs/day (≤ 24 requests/day per site).
 - Skip commit/deploy when payload is unchanged except `fetchedAt` older than 30 min (so freshness stays visible).
 - Alerts: workflow failure e-mail; watchdog cron fails if `fetchedAt` is > 3 h old, checked every two hours.
