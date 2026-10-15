@@ -2,7 +2,7 @@ name: Watchdog (stale data)
 
 on:
   schedule:
-    - cron: "40 */2 * * *" # every two hours
+    - cron: "40 1,7,13,19 * * *" # 4 runs/day, 1.5 h after each scrape (tolerates a delayed cron)
   workflow_dispatch:
 
 permissions:
@@ -21,5 +21,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e scraper
-      - name: Fail if rate.json is older than 3 hours (GitHub e-mails you on failure)
-        run: python -m bolidolar.watchdog --url "$PAGES_URL" --max-hours 3
+      - name: Fail if rate.json is older than 4 hours (GitHub e-mails you on failure)
+        run: python -m bolidolar.watchdog --url "$PAGES_URL" --max-hours 4

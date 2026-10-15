@@ -104,7 +104,7 @@ def test_publish_writes_files_and_is_idempotent(tmp_path: Path, fake_fetcher: Fa
     assert publish.load_json(tmp_path / "v1" / "rate.json")["fetchedAt"] == rate["fetchedAt"]  # type: ignore[index]
 
 
-def test_publish_refreshes_timestamp_after_six_hours(
+def test_publish_refreshes_timestamp_after_three_hours(
     tmp_path: Path, fake_fetcher: FakeFetcher
 ) -> None:
     rate, history = run(fake_fetcher, NOW, None, None)

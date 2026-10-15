@@ -14,7 +14,7 @@ from bolidolar.ranking import Best
 
 SCHEMA = 1
 HISTORY_LIMIT = 400
-REFRESH_AFTER_HOURS = 6
+REFRESH_AFTER_HOURS = 3
 
 
 def _num(value: Decimal | None) -> float | None:

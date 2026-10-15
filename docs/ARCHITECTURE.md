@@ -5,7 +5,7 @@
 ```
 ┌────────────────────┐
 │ BCB official page  │──┐
-├────────────────────┤  │ hourly cron   ┌──────────────┐  deploy  ┌───────────────────────┐
+├────────────────────┤  │ 4×/day cron   ┌──────────────┐  deploy  ┌───────────────────────┐
 │ Bank pages ×8      │──┼──────────────▶│ GitHub Action │─────────▶│ GitHub Pages (CDN)    │
 │ BNB BISA BCP BUN   │  │ fetch+parse   │ Python scraper│          │ /v1/rate.json         │
 │ BEC FIE BGA BMSC   │──┘ per-bank      │ rank + tie    │          │ /v1/history.json      │
@@ -24,7 +24,7 @@
 | 1 | Scrape on a **server-side job**, not on device | Widgets have tiny, uncontrolled refresh/runtime budgets; parsing HTML on-device breaks silently when markup changes and cannot be fixed without an App Store release | On-device scrape (fragile, slow review cycle) |
 | 2 | Publish **static JSON** | Free, cacheable, trivially reliable, no server to run, no keys | Custom API/DB (over-engineered for one number/day) |
 | 3 | **Banks' own pages** for compra/venta (BNB, BISA, BCP, BUN, BEC, FIE, BGA, BMSC) + **BCB TCO** as official reference | Since the 2026 float each bank posts its own prices and they differ a lot; BCB only publishes a purchase median. Seven of eight pages are plain HTML or a tiny JSON | BCB only (no sell price, hides the spread); headless browser for every bank (heavy) |
-| 7 | **Hourly** scrape, per-bank isolation, deterministic daily tie pick | Hourly is enough for prices that change a few times a day; isolation keeps one broken page from breaking the widget; determinism avoids flicker | Real-time push; random on-device pick |
+| 7 | **4×/day** scrape, per-bank isolation, deterministic daily tie pick | 4 runs a day is enough for prices that change a few times a day; isolation keeps one broken page from breaking the widget; determinism avoids flicker | Real-time push; random on-device pick |
 | 8 | Widget tap opens the **free app** | Works offline from cache, shows all banks | Open a web page (needs network, adds nothing) |
 | 4 | **GitHub Actions + Pages** | $0, auditable history in git, easy alerts | Cloudflare Workers/AWS Lambda (good Phase 2 if cron reliability matters) |
 | 5 | **WidgetKit + App Group cache**, deploy target iOS 17 | Native, supports Lock Screen/StandBy/iPad | Third-party widget frameworks (don't exist for iOS) |

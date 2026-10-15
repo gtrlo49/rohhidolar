@@ -10,7 +10,7 @@ A WidgetKit widget that shows, for the US dollar in Bolivia (Bs/$us), the **best
 - A widget **cannot scrape reliably on its own**: iOS gives it a small, system-controlled refresh budget and no background HTML parsing guarantees. So scraping runs on a tiny **backend job**, which publishes a small static `rate.json`; the widget only downloads that JSON.
 
 ```
-BCB page + 8 bank pages ──(scrape 1×/hour, GitHub Actions)──▶ rate.json (static host/CDN)
+BCB page + 8 bank pages ──(scrape 4×/day, GitHub Actions)──▶ rate.json (static host/CDN)
                                                           │
                                   iOS app + Widget extension ◀┘  (App Group cache, WidgetKit timeline)
 ```

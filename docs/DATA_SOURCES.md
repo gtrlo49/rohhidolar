@@ -36,7 +36,7 @@ Notes:
 - None of the pages publishes a **timestamp** (only FIE gives a date). The scraper records its own `fetchedAt`; the widget shows "Leído hoy 15:10".
 - Prices were identical across banks for *venta* (12.00 ×4), which makes **ties the normal case** — see tie rule in WIDGET_SPEC.
 - Selectors/labels live in **one parser module per bank** (`scraper/bolidolar/banks/<code>.py`). A bank failing must never fail the others.
-- Reading only the home page / one endpoint per bank, once per hour.
+- Reading only the home page / one endpoint per bank, 4 times a day.
 
 ### robots.txt / terms review (2026-10-14)
 
@@ -81,5 +81,5 @@ Daily-series fixture saved at `scraper/tests/fixtures/bcb_2026-10-14.html`.
 
 1. ~~BMSC endpoint~~ — found 2026-10-14.
 2. Review each bank's website **terms of use** (robots.txt is not the full picture).
-3. Is hourly enough for BCB's publish time? (Assumed yes: hourly covers any afternoon publication within an hour.)
+3. Is 4 runs a day enough for BCB's publish time? (Assumed yes: a new rate is picked up within at most 6 hours.)
 4. Add more banks later (BPR/Prodem, BSO, BFO, BPY…)? Each is one more parser.

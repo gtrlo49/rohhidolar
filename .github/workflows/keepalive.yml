@@ -1,7 +1,7 @@
 name: Keep alive
 
 # GitHub disables scheduled workflows in a public repository after 60 days without
-# repository activity, which would silently stop the hourly scrape. This workflow runs
+# repository activity, which would silently stop the scheduled scrape. This workflow runs
 # monthly and, if the last commit is older than 45 days, adds an empty commit.
 
 on:
