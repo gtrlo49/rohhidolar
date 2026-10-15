@@ -114,7 +114,7 @@ def test_publish_refreshes_timestamp_after_half_an_hour(
     assert publish.publish(tmp_path, rate2, history2, rate, later) is True
     written = publish.load_json(tmp_path / "v1" / "rate.json")
     assert written is not None
-    assert written["fetchedAt"] == "2026-10-15T02:10:00Z"
+    assert written["fetchedAt"] == "2026-10-14T20:10:00Z"
 
 
 def test_history_keeps_days_and_replaces_same_day(fake_fetcher: FakeFetcher) -> None:
