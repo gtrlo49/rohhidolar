@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://gtrlo49.github.io/rohhidolar/schema/history.v1.schema.json",
+  "$id": "https://rohhidolar.rohhim.com/schema/history.v1.schema.json",
   "title": "RohhiDolar history.json v1",
   "type": "object",
   "required": ["schema", "official", "bestBuy", "bestSell"],
