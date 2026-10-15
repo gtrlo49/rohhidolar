@@ -51,6 +51,12 @@ jobs:
       - name: Show result
         run: head -c 1500 site/v1/rate.json
 
+      - name: Add static pages (landing, privacy policy) and the JSON schemas
+        run: |
+          cp -R pages/. site/
+          mkdir -p site/schema
+          cp schema/*.json site/schema/
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
