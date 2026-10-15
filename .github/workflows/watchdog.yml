@@ -1,0 +1,25 @@
+name: Watchdog (stale data)
+
+on:
+  schedule:
+    - cron: "40 */2 * * *" # every two hours
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PAGES_URL: ${{ vars.PAGES_BASE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e scraper
+      - name: Fail if rate.json is older than 3 hours (GitHub e-mails you on failure)
+        run: python -m bolidolar.watchdog --url "$PAGES_URL" --max-hours 3

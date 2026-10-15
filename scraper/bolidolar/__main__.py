@@ -1,0 +1,64 @@
+"""Command line: python -m bolidolar [--out DIR] [--previous-url URL] [--dry-run]."""
+
+import argparse
+import json
+import logging
+import sys
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+import httpx
+
+from bolidolar import publish
+from bolidolar.http import HttpFetcher
+from bolidolar.models import ValidationError
+from bolidolar.run import run
+
+
+def _load_previous(out: Path, base_url: str | None, name: str) -> dict[str, Any] | None:
+    local = publish.load_json(out / "v1" / name)
+    if local is not None or not base_url:
+        return local
+    try:
+        response = httpx.get(
+            f"{base_url.rstrip('/')}/v1/{name}", timeout=15.0, follow_redirects=True
+        )
+        if response.status_code == 200:
+            data = response.json()
+            return data if isinstance(data, dict) else None
+    except (httpx.HTTPError, json.JSONDecodeError):
+        pass
+    return None
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="bolidolar", description=__doc__)
+    parser.add_argument("--out", type=Path, default=Path("../site"), help="output directory")
+    parser.add_argument("--previous-url", help="base URL of the live site to read previous files")
+    parser.add_argument("--dry-run", action="store_true", help="print the result, write nothing")
+    parser.add_argument("--accept-jump", action="store_true", help="accept a >15%% price jump")
+    parser.add_argument("-v", "--verbose", action="store_true")
+    args = parser.parse_args(argv)
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s %(message)s"
+    )
+
+    previous_rate = _load_previous(args.out, args.previous_url, "rate.json")
+    previous_history = _load_previous(args.out, args.previous_url, "history.json")
+    now = datetime.now(UTC)
+    try:
+        rate, history = run(HttpFetcher(), now, previous_rate, previous_history, args.accept_jump)
+    except ValidationError as exc:
+        logging.error("not publishing: %s", exc)
+        return 1
+    if args.dry_run:
+        print(json.dumps(rate, ensure_ascii=False, indent=2))
+        return 0
+    changed = publish.publish(args.out, rate, history, previous_rate, now)
+    logging.info("rate.json %s", "updated" if changed else "unchanged")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
