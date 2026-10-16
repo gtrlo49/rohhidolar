@@ -1,7 +1,8 @@
 """Banks that print 'Dólar Compra X ... Dólar Venta Y' in their public home page.
 
 BNB (static HTML), BISA and BCP (marquee strips) share the same anchor text.
-Banco Unión prints a sentence: 'Dólar Oficial 11,70 Compra BOB: 10,20 / Venta 12,00'.
+Banco Unión prints a sentence: 'Dólar Oficial 11,70 Compra BOB: 10,20 / Venta 12,00'
+(since 2026-10-16 with colons: 'Dólar Oficial: 11,68 Compra BOB: 10,18 / Venta: 11,83').
 """
 
 import re
@@ -14,7 +15,7 @@ _DOLAR_COMPRA_VENTA = re.compile(
     r"D[óo]lar\s+Compra:?\s*([\d.,]+)\s*\|?\s*D[óo]lar\s+Venta:?\s*([\d.,]+)", re.IGNORECASE
 )
 _UNION = re.compile(
-    r"D[óo]lar\s+Oficial\s+[\d.,]+\s*Compra\s+BOB:?\s*([\d.,]+)\s*/\s*Venta\s+([\d.,]+)",
+    r"D[óo]lar\s+Oficial:?\s*[\d.,]+\s*Compra\s+BOB:?\s*([\d.,]+)\s*/\s*Venta:?\s*([\d.,]+)",
     re.IGNORECASE,
 )
 

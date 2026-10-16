@@ -18,6 +18,7 @@ D = Decimal
         (parse_bisa, "bisa_2026-10-14.html", "11.00", "12.00"),
         (parse_bcp, "bcp_2026-10-14.html", "11.20", "12.00"),
         (parse_bun, "bun_2026-10-14.html", "10.20", "12.00"),
+        (parse_bun, "bun_2026-10-16.html", "10.18", "11.83"),  # colons added after Oficial/Venta
         (parse_bec, "bec_2026-10-14.json", "10.70", "12.05"),
         (parse_fie, "fie_2026-10-14.json", "10.80", "11.80"),
         (parse_bmsc, "bmsc_2026-10-14.json", "10.60", "12.00"),
