@@ -89,4 +89,4 @@ jobs:
       - name: Deploy
         if: steps.fresh.outputs.skip != 'true'
         id: deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
